@@ -6,10 +6,10 @@ const SearchResultsComponent = (props) => {
 
     useEffect(() => {
         const {text, location} = props.search;
-        const isSearch = text?.length > 0 && location?.length > 0  ? true : false;
+        const isSearch = text?.length > 0 || location?.length > 0  ? true : false;
         const params = {
             location,
-            movie: text
+            movie: text || undefined
         };
         getData(params, isSearch).then(res => {
             const _data = res.data;
@@ -19,13 +19,14 @@ const SearchResultsComponent = (props) => {
 
     return (
         <div>
-            <ul>
+            {results?.length > 0 && <ul>
                 {
                     results.map(item => (
                         <li key={item.id}>{item.name}</li>
                     ))
                 }
-            </ul>
+            </ul>}
+            {results?.length == 0 && <div>No Results</div>}
         </div>
     )
 }
